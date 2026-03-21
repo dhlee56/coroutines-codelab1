@@ -40,7 +40,7 @@ android {
         compose = true
     }
 }
-val room_version = "2.4.1"
+val room_version = "2.8.4"
 val gson_version = "2.9.0"
 val retrofit_version = "2.9.0"
 val retrofit_gson_version = "2.9.0"
