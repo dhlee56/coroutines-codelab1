@@ -49,6 +49,7 @@ class TitleRepository(val network: MainNetwork, val titleDao: TitleDao) {
     suspend fun refreshTitle() {
         try {
             // Make network request using a blocking call
+            println("KOTLINCLASS: refreshTitle")
             val result = withTimeout(5_000) {
                 network.fetchNextTitle()
             }
