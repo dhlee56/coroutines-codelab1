@@ -44,7 +44,8 @@ val room_version = "2.8.4"
 val gson_version = "2.9.0"
 val retrofit_version = "2.9.0"
 val retrofit_gson_version = "2.9.0"
-val work_version = "2.7.1"
+//val work_version = "2.7.1"
+val work_version = "2.10.5"
 val coroutines_android_version = "1.5.2"
 val arch_version = "2.1.0"
 val lifecycle_version = "2.4.1"
@@ -60,6 +61,8 @@ dependencies {
     implementation(libs.androidx.compose.material3)
 
     implementation("androidx.room:room-ktx:$room_version")
+    //implementation(libs.androidx.work.testing)
+    implementation("androidx.work:work-testing:$work_version")
     kapt("androidx.room:room-compiler:$room_version")
     implementation("com.google.code.gson:gson:$gson_version")
     implementation("com.squareup.retrofit2:converter-gson:$retrofit_gson_version")
@@ -73,6 +76,7 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
+    androidTestImplementation("androidx.work:work-testing:$work_version")
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
     debugImplementation("com.google.truth:truth:$truth_version")

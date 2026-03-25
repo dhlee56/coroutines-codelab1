@@ -19,8 +19,11 @@ package com.example.android.kotlincoroutines
 import android.app.Application
 import androidx.work.Configuration
 import androidx.work.Constraints
+import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.ExistingPeriodicWorkPolicy.KEEP
 import androidx.work.NetworkType.UNMETERED
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.PeriodicWorkRequest
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import com.example.android.kotlincoroutines.main.RefreshMainDataWork
@@ -41,31 +44,44 @@ class KotlinCoroutinesApp : Application() {
         setupWorkManagerJob()
     }
 
-    /**
-     * Setup WorkManager background job to 'fetch' new network data daily.
-     */
-    private fun setupWorkManagerJob() {
-        // initialize WorkManager with a Factory
-        val workManagerConfiguration = Configuration.Builder()
-                .setWorkerFactory(RefreshMainDataWork.Factory())
-                .build()
-        WorkManager.initialize(this, workManagerConfiguration)
-
+    fun enqueueWorkManagerJob() {
         // Use constraints to require the work only run when the device is charging and the
         // network is unmetered
         val constraints = Constraints.Builder()
-                .setRequiresCharging(true)
-                .setRequiredNetworkType(UNMETERED)
-                .build()
+            .setRequiresCharging(true)
+            .setRequiredNetworkType(UNMETERED)
+            .build()
 
         // Specify that the work should attempt to run every day
-        val work = PeriodicWorkRequestBuilder<RefreshMainDataWork>(1, TimeUnit.DAYS)
-                .setConstraints(constraints)
+
+        val work =
+            //PeriodicWorkRequestBuilder<RefreshMainDataWork>(15, TimeUnit.MINUTES)
+            OneTimeWorkRequestBuilder<RefreshMainDataWork>()
+                //.setConstraints(constraints)
+                .setInitialDelay(10, TimeUnit.MINUTES)
                 .build()
 
         // Enqueue it work WorkManager, keeping any previously scheduled jobs for the same
         // work.
         WorkManager.getInstance(this)
-                .enqueueUniquePeriodicWork(RefreshMainDataWork::class.java.name, KEEP, work)
+            // .enqueueUniquePeriodicWork(RefreshMainDataWork::class.java.name,
+            //    ExistingPeriodicWorkPolicy.UPDATE, work)
+            .enqueue(work)
+        println("KOTLINCLASS: workManager work enqueued")
+    }
+    /**
+     * Setup WorkManager background job to 'fetch' new network data daily.
+     */
+    fun setupWorkManagerJob() {
+        // initialize WorkManager with a Factory
+        val workManagerConfiguration = Configuration.Builder()
+                .setWorkerFactory(RefreshMainDataWork.Factory())
+                .build()
+        try {
+            WorkManager.initialize(this, workManagerConfiguration)
+            println("KOTLINCLASS: workManager initialized")
+        } catch (e: Exception) {
+            println("KOTLINCLASS: catch $e.message")
+        }
     }
 }

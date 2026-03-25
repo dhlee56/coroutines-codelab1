@@ -22,6 +22,7 @@ import com.example.android.kotlincoroutines.fakes.MainNetworkCompletableFake
 import com.example.android.kotlincoroutines.fakes.MainNetworkFake
 import com.example.android.kotlincoroutines.fakes.TitleDaoFake
 import com.google.common.truth.Truth
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.advanceTimeBy
 import kotlinx.coroutines.test.runTest
@@ -47,6 +48,7 @@ class TitleRepositoryTest {
 
     }
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     @Test(expected = TitleRefreshError::class)
     fun whenRefreshTitleTimeout_throws()  = runTest {
         val network = MainNetworkCompletableFake()
