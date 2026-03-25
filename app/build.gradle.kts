@@ -77,6 +77,9 @@ dependencies {
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
     androidTestImplementation("androidx.work:work-testing:$work_version")
+    //androidTestImplementation ("androidx.test.ext:junit:1.1.5")// Check for latest version
+    //androidTestImplementation ("androidx.test:runner:1.5.2")  // Check for latest version
+
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
     debugImplementation("com.google.truth:truth:$truth_version")
