@@ -62,7 +62,7 @@ dependencies {
 
     implementation("androidx.room:room-ktx:$room_version")
     //implementation(libs.androidx.work.testing)
-    implementation("androidx.work:work-testing:$work_version")
+    //implementation("androidx.work:work-testing:$work_version")
     kapt("androidx.room:room-compiler:$room_version")
     implementation("com.google.code.gson:gson:$gson_version")
     implementation("com.squareup.retrofit2:converter-gson:$retrofit_gson_version")
