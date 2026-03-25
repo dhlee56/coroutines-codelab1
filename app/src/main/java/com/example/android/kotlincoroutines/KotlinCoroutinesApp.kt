@@ -58,7 +58,7 @@ class KotlinCoroutinesApp : Application() {
             //PeriodicWorkRequestBuilder<RefreshMainDataWork>(15, TimeUnit.MINUTES)
             OneTimeWorkRequestBuilder<RefreshMainDataWork>()
                 //.setConstraints(constraints)
-                .setInitialDelay(10, TimeUnit.MINUTES)
+                //.setInitialDelay(10, TimeUnit.MINUTES)
                 .build()
 
         // Enqueue it work WorkManager, keeping any previously scheduled jobs for the same

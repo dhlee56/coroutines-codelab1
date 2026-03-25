@@ -19,7 +19,9 @@ package com.example.android.kotlincoroutines
 import android.content.Context
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.matcher.ViewMatchers.assertThat
+import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.work.CoroutineWorker
 import androidx.work.ListenableWorker
 import androidx.work.Worker
 import androidx.work.WorkerParameters
@@ -30,8 +32,11 @@ import com.example.android.kotlincoroutines.fakes.MainNetworkFake
 import com.example.android.kotlincoroutines.main.RefreshMainDataWork
 import com.google.common.base.CharMatcher.`is`
 import com.google.common.truth.Truth.assertThat
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertTrue
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
@@ -39,14 +44,15 @@ import java.util.concurrent.Executor
 import java.util.concurrent.Executors
 
 class SleepWorker(context: Context, parameters: WorkerParameters) :
-    Worker(context, parameters) {
+    CoroutineWorker(context, parameters) {
 
-    override fun doWork(): Result {
+    override suspend fun doWork(): Result {
         // Sleep on a background thread.
         val sleepDuration = inputData.getLong(SLEEP_DURATION, 1000)
-        Thread.sleep(sleepDuration)
+        delay(sleepDuration)
         return Result.success()
     }
+
     companion object {
         const val SLEEP_DURATION = "SLEEP_DURATION"
     }
@@ -56,20 +62,19 @@ class SleepWorker(context: Context, parameters: WorkerParameters) :
 // the Worker
 @RunWith(AndroidJUnit4::class)
 class SleepWorkerTest {
+//    @get:Rule
+//    val activity = ActivityScenarioRule(MainActivity::class.java)
     private lateinit var context: Context
-    private lateinit var executor: Executor
 
     @Before
     fun setUp() {
         context = ApplicationProvider.getApplicationContext()
-        executor = Executors.newSingleThreadExecutor()
     }
 
     @Test
-    fun testSleepWorker() {
-        val worker = TestWorkerBuilder<SleepWorker>(
+    fun testSleepWorker() = runTest {
+        val worker = TestListenableWorkerBuilder<SleepWorker>(
             context = context,
-            executor = executor,
             inputData = workDataOf("SLEEP_DURATION" to 1000L)
         ).build()
 
