@@ -40,7 +40,7 @@ android {
         compose = true
     }
 }
-val room_version = "2.4.1"
+val room_version = "2.8.4"
 val gson_version = "2.9.0"
 val retrofit_version = "2.9.0"
 val retrofit_gson_version = "2.9.0"
@@ -48,6 +48,7 @@ val work_version = "2.7.1"
 val coroutines_android_version = "1.5.2"
 val arch_version = "2.1.0"
 val lifecycle_version = "2.4.1"
+val truth_version = "1.1.3"
 dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
@@ -74,4 +75,5 @@ dependencies {
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
+    debugImplementation("com.google.truth:truth:$truth_version")
 }
